@@ -1,1 +1,75 @@
-<p>list works!</p>
+<div class="mx-auto mb-5 mt-5 text-center">
+  <h1 class="text-2xl font-bold underline">Liste des produits</h1>
+</div>
+
+@if (loading) {
+  <div class="flex items-center justify-center">
+    <mat-spinner></mat-spinner>
+  </div>
+} @else {
+  <div class="mx-auto w-2/5">
+    <input
+      #searchInput
+      class="focus:shadow-outline mb-3 w-full appearance-none rounded border p-3 leading-tight text-gray-700 shadow focus:outline-none"
+      id="search"
+      type="text"
+      placeholder="Rechercher ici..."
+      [formControl]="searchControl"
+    />
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+      <!-- Libellé du produit Column -->
+      <ng-container matColumnDef="name">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          class="p-4 text-left"
+        >
+          Libellé du produit
+        </th>
+        <td mat-cell *matCellDef="let element" class="p-4 text-left">
+          {{ element.name }}
+        </td>
+      </ng-container>
+
+      <!-- Prix de l'unité Column -->
+      <ng-container matColumnDef="price">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          class="p-4 text-left"
+        >
+          Prix de l'unité
+        </th>
+        <td mat-cell *matCellDef="let element" class="p-4 text-left">
+          {{ element.price | currencyAriary }} Ariary
+        </td>
+      </ng-container>
+
+      <tr
+        mat-header-row
+        *matHeaderRowDef="displayedColumns"
+        class="bg-gray-200"
+      ></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        class="hover:bg-gray-100"
+      ></tr>
+    </table>
+
+    <mat-paginator
+      (page)="handlePageEvent($event)"
+      [length]="length"
+      [pageSize]="pageSize"
+      [disabled]="disabled"
+      [showFirstLastButtons]="showFirstLastButtons"
+      [pageSizeOptions]="pageSizeOptions"
+      [hidePageSize]="hidePageSize"
+      [pageIndex]="pageIndex"
+      showFirstLastButtons
+      class="mt-4"
+    ></mat-paginator>
+  </div>
+}
