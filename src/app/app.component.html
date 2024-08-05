@@ -1,1 +1,5 @@
-<router-outlet />
+@if (connected) {
+<app-layout></app-layout>
+} @else if (!connected) {
+<router-outlet></router-outlet>
+}

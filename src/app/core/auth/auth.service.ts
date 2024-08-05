@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { Observable, of, switchMap, throwError } from 'rxjs';
+import { Observable, of, switchMap, tap, throwError } from 'rxjs';
 import { environment } from '@environments/environment';
 
 @Injectable({
@@ -52,18 +52,14 @@ export class AuthService {
   }
 
   signOut(): Observable<any> {
-    this._httpClient.post(`${environment.api}/logout`,{}).subscribe({
-      next: () => {
+    return this._httpClient.post(`${environment.api}/logout`, {}).pipe(
+      tap(() => {
         this._cookieService.delete('accessToken');
         this._cookieService.delete('appToken');
         this.accessToken = null;
         this._authenticated = false;
-      },
-      complete: () => {
-      }
-    })
-
-    return of(true);
+      })
+    )
   }
 
   check(): Observable<boolean> {

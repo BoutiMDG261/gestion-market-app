@@ -33,7 +33,7 @@ export class SignInComponent implements OnInit {
   }
 
   goToHome() {
-    this._router.navigate(['/home'])
+    this._router.navigate(['/app/dashboard'])
   }
 
   onSubmit() {
