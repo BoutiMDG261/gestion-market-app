@@ -1,1 +1,116 @@
-<p>create works!</p>
+<div class="mx-auto mb-5 text-center">
+  <h3 class="text-lg font-bold underline">Ajout d'un produit</h3>
+</div>
+
+<ng-container>
+  <form
+    [formGroup]="productForm"
+    (ngSubmit)="onSubmit()"
+    class="mx-auto max-w-sm"
+  >
+    <div class="mb-5">
+      <label
+        for="name"
+        class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+        >Nom du produit*</label
+      >
+      <input
+        type="text"
+        id="name"
+        formControlName="name"
+        [ngClass]="{
+          'border-red-500':
+            productForm.get('name')?.invalid &&
+            productForm.get('name')?.touched,
+        }"
+        class="dark:shadow-sm-light block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+        placeholder="ex: Coca-Cola"
+        required
+      />
+      @if (
+        (productForm.get("name")?.invalid &&
+          productForm.get("name")?.touched) ||
+        serverErrors["name"]
+      ) {
+        <div class="text-sm text-red-500" @fadeInOut>
+          {{
+            serverErrors["name"]
+              ? serverErrors["name"][0]
+              : "Le nom du produit est requis."
+          }}
+        </div>
+      }
+      @if (serverErrors["0.name"]) {
+        <div class="text-sm text-red-500" @fadeInOut>
+          {{ serverErrors["0.name"][0] }}
+        </div>
+      }
+    </div>
+
+    <div class="mb-5">
+      <label
+        for="description"
+        class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+        >Description</label
+      >
+      <textarea
+        id="description"
+        formControlName="description"
+        class="dark:shadow-sm-light block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+        placeholder="ex: Coca-Cola est une boisson gazeuse sucrée."
+        rows="4"
+      ></textarea>
+      @if (
+        productForm.get("description")?.invalid &&
+        productForm.get("description")?.touched
+      ) {
+        <div class="text-sm text-red-500" @fadeInOut>
+          La description ne doit pas dépasser 255 caractères.
+        </div>
+      }
+    </div>
+
+    <div class="mb-5">
+      <label
+        for="price"
+        class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+        >Prix unitaire*</label
+      >
+      <div class="flex">
+        <input
+          type="number"
+          id="price"
+          formControlName="price"
+          [ngClass]="{
+            'border-red-500':
+              productForm.get('price')?.invalid &&
+              productForm.get('price')?.touched,
+          }"
+          class="dark:shadow-sm-light block w-full rounded-l-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+          placeholder="ex: 5 000"
+          required
+        />
+        <span
+          class="inline-flex items-center rounded-r-lg border border-l-0 border-gray-300 bg-gray-200 px-3 text-sm font-medium text-gray-900 dark:border-gray-600 dark:bg-gray-600 dark:text-gray-300"
+        >
+          Ariary
+        </span>
+      </div>
+      @if (
+        productForm.get("price")?.invalid && productForm.get("price")?.touched
+      ) {
+        <div class="text-sm text-red-500" @fadeInOut>
+          Le prix est requis et doit être un nombre supérieur ou égal à 1.
+        </div>
+      }
+    </div>
+
+    <button
+      type="submit"
+      [disabled]="productForm.invalid"
+      class="rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 disabled:cursor-not-allowed disabled:bg-gray-400 disabled:text-gray-700 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+    >
+      > Enregistrer nouveau produit
+    </button>
+  </form>
+</ng-container>
