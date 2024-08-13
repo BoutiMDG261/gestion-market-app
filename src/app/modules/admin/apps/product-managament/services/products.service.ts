@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Product } from '@app/core/models/product';
+import { ProductResponse } from '@app/core/models/response.product';
 import { PaginationData } from '@app/core/models/return.pagination';
 import { ReturnTypes } from '@app/core/models/return.types';
 import { environment } from '@environments/environment';
@@ -46,5 +47,9 @@ export class ProductsService {
           this._products.next(products)
         })
       )
+  }
+
+  addProduct(product: Product): Observable<ProductResponse> {
+      return this._httpClient.post<ProductResponse>(`${environment.api}/produit`, product)
   }
 }
