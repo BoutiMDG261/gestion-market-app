@@ -40,6 +40,12 @@ export const authInterceptor = (req: HttpRequest<unknown>, next: HttpHandlerFn):
     catchError((error) => {
       // Catch "401 Unauthorized" responses
       if (error instanceof HttpErrorResponse && error.status === 401) {
+        // Show snack bar
+        snackBar.open('Unauthorized access. Please login again.', 'Fermer', {
+          duration: 3000,
+          panelClass: ['error-snackbar', 'snackbar-top']
+        });
+
         // Attempt to refresh the token
         return authService.refresh().pipe(
           switchMap((res: any) => {
