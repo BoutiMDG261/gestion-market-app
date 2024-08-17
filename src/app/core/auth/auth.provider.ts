@@ -3,15 +3,14 @@ import {APP_INITIALIZER, ENVIRONMENT_INITIALIZER, EnvironmentProviders, inject, 
 import { AuthService } from './auth.service';
 import { authInterceptor } from './auth.interceptor';
 
-export const provideAuth = (): Array<Provider | EnvironmentProviders> =>
-{
+export const provideAuth = (): Array<Provider | EnvironmentProviders> => {
     return [
-        provideHttpClient(withInterceptors([authInterceptor])),
-        {
-            provide : APP_INITIALIZER,
-            useFactory: (authService: AuthService) => () => authService.initialize(),
-            deps: [AuthService],
-            multi: true,
-        },
+      provideHttpClient(withInterceptors([authInterceptor])),
+      {
+        provide: APP_INITIALIZER,
+        useFactory: (authService: AuthService) => () => authService.initialize(),
+        deps: [AuthService],
+        multi: true,
+      },
     ];
 };
